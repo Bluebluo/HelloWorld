@@ -1,0 +1,74 @@
+方法调用不改变 实参的地址
+调用结束 形参虚线消失
+
+
+处理时间
+Date : Date  data =new Date(date);
+	SimpleDateFormat sdf  = new SimpleDateFormate("yyyy-MM-DD HH:mm:ss");
+	sdf.format(date);
+file类代表文件或者文件夹，可以是存在可以是不存在的；
+	File f = new File("d:/eclipse");可以代表文件也可以代表文件夹  关键看方法
+	eg;f.createNewFile();//文件
+	f.length();//文件长度  字节数
+	
+	f.mkdirs();//作为文件夹    s多级目录
+	f.list();//列出文件夹里面的东西
+断点续传功能
+流：    四个抽象类InputStream	OutputStream	Reader 	  Write
+	按照方向分：输入流    输出流
+	按照传输单位分：字节流	字符流
+	按照是否有物理介质分：节点流(有)stream	包装流(没有)reader
+	“用完要关掉”
+	FileInputStream fis = new FileInputStream("d:/eclipse.txt");
+	fis.read();//文件一定要存在
+	Byte b[] = new Byte[1024];//缓冲数组 
+	int len = fis.read(b);
+	fis.read(b);//读到数组里面 返回实际读到的字节数
+	Array.toString(b);//
+
+	把字节数组转换成字符串   解码
+	new String(b,0,len);
+	把字符串转换成数组    编码
+	new s = "abc";  s.getBytes();
+
+	未知大小文件
+	int len = 0;
+	while((len = fis.read(b)!=-1)){
+	system.out.println("new String (b,0,len)");
+	}
+	fis.close();
+	FileOutputStream fos = new FileOutputStream("e:haha.jpg");
+	while((len = fis.read(b)!=-1)){
+	fos.write(b,0,len);
+	}
+	fos.close();
+
+包装流  字节流外面包一层字符流
+	FileInputStream fis = new FileInputStream("d:/eclipse.txt");//并不能使用+
+	FileReader fis = new FileInputStream("d:/eclipse.txt");//一种解决方案
+	InputStreamReader isr =  new InputStreamReader(fis);//+另一种解决方案
+	BufferedReader br = new BufferedReader(isr);//字符流
+	String s = null;
+	while((s=br.readLine()!=null)){
+	system.out.println(s);
+	}
+	br.close();//只需要关包装流 不用关另一个
+
+打印流(一种包装流) 
+	File f = new File("D:adb.txt");
+	PrintStream ps = new PrintStream(f);
+	ps.print(10);
+	ps.close();
+内存和显示器之间  静态打印流
+	Sytem.out.println();
+键盘和显示器之间
+	System.in();
+	
+
+	工程里面的文件
+	InputStream is = TestFile.class.getClassLoader().getResourceAsStream(aaa.txt);
+	访问属性 文件：
+	FileInputStream fis = new FileInputStream("aaa.properties");
+	Properties pros = new Properties();
+	pros.load(fis);
+	String name =  pros.getProperty("key");

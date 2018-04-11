@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlo.dao.CourseSectionMapper">
+  <resultMap id="BaseResultMap" type="com.hlo.bean.CourseSection">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="course_ppt" jdbcType="VARCHAR" property="coursePpt" />
+    <result column="course_video" jdbcType="VARCHAR" property="courseVideo" />
+    <result column="more_data" jdbcType="VARCHAR" property="moreData" />
+    <result column="point_analyze" jdbcType="VARCHAR" property="pointAnalyze" />
+    <result column="course_ogg" jdbcType="VARCHAR" property="courseOgg" />
+    <result column="nice_case" jdbcType="VARCHAR" property="niceCase" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, title, course_id, course_ppt, course_video, more_data, point_analyze, course_ogg, 
+    nice_case
+  </sql>
+  <select id="selectByExample" parameterType="com.hlo.bean.CourseSectionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_webclass_section
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_webclass_section
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_webclass_section
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlo.bean.CourseSectionExample">
+    delete from t_webclass_section
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlo.bean.CourseSection">
+    insert into t_webclass_section (id, title, course_id, 
+      course_ppt, course_video, more_data, 
+      point_analyze, course_ogg, nice_case
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, 
+      #{coursePpt,jdbcType=VARCHAR}, #{courseVideo,jdbcType=VARCHAR}, #{moreData,jdbcType=VARCHAR}, 
+      #{pointAnalyze,jdbcType=VARCHAR}, #{courseOgg,jdbcType=VARCHAR}, #{niceCase,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlo.bean.CourseSection">
+    insert into t_webclass_section
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="coursePpt != null">
+        course_ppt,
+      </if>
+      <if test="courseVideo != null">
+        course_video,
+      </if>
+      <if test="moreData != null">
+        more_data,
+      </if>
+      <if test="pointAnalyze != null">
+        point_analyze,
+      </if>
+      <if test="courseOgg != null">
+        course_ogg,
+      </if>
+      <if test="niceCase != null">
+        nice_case,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="coursePpt != null">
+        #{coursePpt,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVideo != null">
+        #{courseVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="moreData != null">
+        #{moreData,jdbcType=VARCHAR},
+      </if>
+      <if test="pointAnalyze != null">
+        #{pointAnalyze,jdbcType=VARCHAR},
+      </if>
+      <if test="courseOgg != null">
+        #{courseOgg,jdbcType=VARCHAR},
+      </if>
+      <if test="niceCase != null">
+        #{niceCase,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlo.bean.CourseSectionExample" resultType="java.lang.Long">
+    select count(*) from t_webclass_section
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_webclass_section
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseId != null">
+        course_id = #{record.courseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.coursePpt != null">
+        course_ppt = #{record.coursePpt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseVideo != null">
+        course_video = #{record.courseVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moreData != null">
+        more_data = #{record.moreData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pointAnalyze != null">
+        point_analyze = #{record.pointAnalyze,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courseOgg != null">
+        course_ogg = #{record.courseOgg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.niceCase != null">
+        nice_case = #{record.niceCase,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_webclass_section
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      course_id = #{record.courseId,jdbcType=INTEGER},
+      course_ppt = #{record.coursePpt,jdbcType=VARCHAR},
+      course_video = #{record.courseVideo,jdbcType=VARCHAR},
+      more_data = #{record.moreData,jdbcType=VARCHAR},
+      point_analyze = #{record.pointAnalyze,jdbcType=VARCHAR},
+      course_ogg = #{record.courseOgg,jdbcType=VARCHAR},
+      nice_case = #{record.niceCase,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlo.bean.CourseSection">
+    update t_webclass_section
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="coursePpt != null">
+        course_ppt = #{coursePpt,jdbcType=VARCHAR},
+      </if>
+      <if test="courseVideo != null">
+        course_video = #{courseVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="moreData != null">
+        more_data = #{moreData,jdbcType=VARCHAR},
+      </if>
+      <if test="pointAnalyze != null">
+        point_analyze = #{pointAnalyze,jdbcType=VARCHAR},
+      </if>
+      <if test="courseOgg != null">
+        course_ogg = #{courseOgg,jdbcType=VARCHAR},
+      </if>
+      <if test="niceCase != null">
+        nice_case = #{niceCase,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlo.bean.CourseSection">
+    update t_webclass_section
+    set title = #{title,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=INTEGER},
+      course_ppt = #{coursePpt,jdbcType=VARCHAR},
+      course_video = #{courseVideo,jdbcType=VARCHAR},
+      more_data = #{moreData,jdbcType=VARCHAR},
+      point_analyze = #{pointAnalyze,jdbcType=VARCHAR},
+      course_ogg = #{courseOgg,jdbcType=VARCHAR},
+      nice_case = #{niceCase,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

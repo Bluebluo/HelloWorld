@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hlo.dao.CourseExerciseMapper">
+  <resultMap id="BaseResultMap" type="com.hlo.bean.CourseExercise">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="question" jdbcType="VARCHAR" property="question" />
+    <result column="option_A" jdbcType="VARCHAR" property="optionA" />
+    <result column="option_B" jdbcType="VARCHAR" property="optionB" />
+    <result column="option_C" jdbcType="VARCHAR" property="optionC" />
+    <result column="option_D" jdbcType="VARCHAR" property="optionD" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="section_id" jdbcType="INTEGER" property="sectionId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, question, option_A, option_B, option_C, option_D, answer, reason, contact, section_id
+  </sql>
+  <select id="selectByExample" parameterType="com.hlo.bean.CourseExerciseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_webclass_exercise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!-- 随机查出5条数据 -->
+    <select id="selectRandomByExample" resultMap="BaseResultMap">
+   SELECT 
+   <include refid="Base_Column_List" />
+    FROM t_webclass_exercise
+	WHERE id >= (SELECT floor(RAND() * (SELECT MAX(id) FROM t_webclass_exercise where section_id = #{sectionId,jdbcType=INTEGER})))  
+	ORDER BY id LIMIT 5;
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_webclass_exercise
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_webclass_exercise
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hlo.bean.CourseExerciseExample">
+    delete from t_webclass_exercise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hlo.bean.CourseExercise">
+    insert into t_webclass_exercise (id, question, option_A, 
+      option_B, option_C, option_D, 
+      answer, reason, contact, 
+      section_id)
+    values (#{id,jdbcType=INTEGER}, #{question,jdbcType=VARCHAR}, #{optionA,jdbcType=VARCHAR}, 
+      #{optionB,jdbcType=VARCHAR}, #{optionC,jdbcType=VARCHAR}, #{optionD,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
+      #{sectionId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hlo.bean.CourseExercise">
+    insert into t_webclass_exercise
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="question != null">
+        question,
+      </if>
+      <if test="optionA != null">
+        option_A,
+      </if>
+      <if test="optionB != null">
+        option_B,
+      </if>
+      <if test="optionC != null">
+        option_C,
+      </if>
+      <if test="optionD != null">
+        option_D,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="contact != null">
+        contact,
+      </if>
+      <if test="sectionId != null">
+        section_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="question != null">
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null">
+        #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null">
+        #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null">
+        #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null">
+        #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionId != null">
+        #{sectionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hlo.bean.CourseExerciseExample" resultType="java.lang.Long">
+    select count(*) from t_webclass_exercise
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_webclass_exercise
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.question != null">
+        question = #{record.question,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionA != null">
+        option_A = #{record.optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionB != null">
+        option_B = #{record.optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionC != null">
+        option_C = #{record.optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optionD != null">
+        option_D = #{record.optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answer != null">
+        answer = #{record.answer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contact != null">
+        contact = #{record.contact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sectionId != null">
+        section_id = #{record.sectionId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_webclass_exercise
+    set id = #{record.id,jdbcType=INTEGER},
+      question = #{record.question,jdbcType=VARCHAR},
+      option_A = #{record.optionA,jdbcType=VARCHAR},
+      option_B = #{record.optionB,jdbcType=VARCHAR},
+      option_C = #{record.optionC,jdbcType=VARCHAR},
+      option_D = #{record.optionD,jdbcType=VARCHAR},
+      answer = #{record.answer,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      contact = #{record.contact,jdbcType=VARCHAR},
+      section_id = #{record.sectionId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlo.bean.CourseExercise">
+    update t_webclass_exercise
+    <set>
+      <if test="question != null">
+        question = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="optionA != null">
+        option_A = #{optionA,jdbcType=VARCHAR},
+      </if>
+      <if test="optionB != null">
+        option_B = #{optionB,jdbcType=VARCHAR},
+      </if>
+      <if test="optionC != null">
+        option_C = #{optionC,jdbcType=VARCHAR},
+      </if>
+      <if test="optionD != null">
+        option_D = #{optionD,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="sectionId != null">
+        section_id = #{sectionId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hlo.bean.CourseExercise">
+    update t_webclass_exercise
+    set question = #{question,jdbcType=VARCHAR},
+      option_A = #{optionA,jdbcType=VARCHAR},
+      option_B = #{optionB,jdbcType=VARCHAR},
+      option_C = #{optionC,jdbcType=VARCHAR},
+      option_D = #{optionD,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      section_id = #{sectionId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

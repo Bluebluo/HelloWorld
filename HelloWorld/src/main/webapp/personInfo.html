@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>教师信息列表</title>
+<link href="https://cdn.bootcss.com/ionic/1.3.2/css/ionic.css"
+	rel="stylesheet">
+<script src="https://cdn.bootcss.com/ionic/1.3.2/js/ionic.bundle.min.js"></script>
+<script
+	src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<script type="text/javascript" src="./static/js/jquery-3.1.1.min.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		$.ajax({
+			url : '/HelloWorld/getAllTeachers',
+			type : 'post',
+			success : function(result) {
+				//buildTab(result.extend.teachers);
+			}
+		})
+	});
+
+	function buildTab(teachers) {
+		$.each(teachers,function(index,item){
+			var nameTd = $("<td></td>").append(item.name);
+			var schoolTd = $("<td></td>").append(item.school);
+			var levelTd = $("<td></td>").append(item.level);
+			var teachclsTd = $("<td></td>").append(item.teachcls);
+			var photoTd = $("<td></td>").append($("<img>").attr({"src":item.photo}));
+			$("<tr></tr>").append(nameTd)
+						.append(schoolTd)
+						.append(levelTd)
+						.append(teachclsTd)
+		})
+	}
+</script>
+</head>
+<body>
+	<br>
+	<div class="container-fluid">
+		<h1>
+			<p class="bg-primary">echo回声科技</p>
+			<small></small>
+		</h1>
+		<div class="row">
+			<div class="col-xs-3">
+				<span class="text-right" style="float: right">姓名：</span> <br> <span
+					class="text-right" style="float: right">职称：</span> <br> <span
+					class="text-right" style="float: right">院校：</span> <br> <span
+					class="text-right" style="float: right">教授课程：</span>
+			</div>
+			<div class="col-xs-5">
+				<span class="text-left" style="float: left">叶娜</span> <br> <span
+					class="text-left" style="float: left">副教授</span> <br> <span
+					class="text-left" style="float: left">西安建筑科技大学</span> <br> <span
+					class="text-left" style="float: left">编译原理<br>web应用于开发
+				</span>
+			</div>
+			<div class="col-xs-4">
+				<img style="width: 110px; height: 140px"
+					src="http://localhost:8080/HelloWorld/image/yena.png" alt="pic" />
+			</div>
+		</div>
+	</div>
+</body>
+</html>
